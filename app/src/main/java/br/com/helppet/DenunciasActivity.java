@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,9 +19,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import br.com.helppet.Modelo.Denuncia;
+import br.com.helppet.adapter.DenunciaAdapter;
+import br.com.helppet.modelo.Denuncia;
 import br.com.helppet.util.Path;
 
 public class DenunciasActivity extends AppCompatActivity {
@@ -28,12 +29,16 @@ public class DenunciasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_denuncias);
+        setContentView(R.layout.lista_denuncia);
         context = this;
+        listViewDeuncias = (ListView) findViewById(R.id.listaDenuncia);
         new ConsultaDenuncias().execute(Path.getDenunciaPath());
+
     }
 
     private Context context;
+    private ListView listViewDeuncias;
+    private DenunciaAdapter denunciaAdapter;
 
 
     public class ConsultaDenuncias extends AsyncTask<String, String, String> {
@@ -91,6 +96,11 @@ public class DenunciasActivity extends AppCompatActivity {
             };
 
             ArrayList<Denuncia> denuncias = gson.fromJson(resposta, tipoDado.getType());
+
+            if(denuncias.size() > 0 ){
+                denunciaAdapter = new DenunciaAdapter(context,denuncias);
+                listViewDeuncias.setAdapter(denunciaAdapter);
+            }
 
             Toast.makeText(context, " " + denuncias.size(), Toast.LENGTH_SHORT).show();
 

@@ -1,4 +1,4 @@
-package br.com.helppet.Modelo;
+package br.com.helppet.modelo;
 
 
 
