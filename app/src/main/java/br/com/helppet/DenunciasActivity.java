@@ -1,9 +1,12 @@
 package br.com.helppet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,7 +53,7 @@ public class DenunciasActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("http://" + params[0]);
+                URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -95,14 +98,28 @@ public class DenunciasActivity extends AppCompatActivity {
             TypeToken<List<Denuncia>> tipoDado = new TypeToken<List<Denuncia>>() {
             };
 
-            ArrayList<Denuncia> denuncias = gson.fromJson(resposta, tipoDado.getType());
+            final ArrayList<Denuncia> denuncias = gson.fromJson(resposta, tipoDado.getType());
 
             if(denuncias.size() > 0 ){
                 denunciaAdapter = new DenunciaAdapter(context,denuncias);
                 listViewDeuncias.setAdapter(denunciaAdapter);
+                listViewDeuncias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Intent i  = new Intent(context, DetalhesDenunciaActivty.class);
+                        Denuncia denunciaSelecionada = denuncias.get(position);
+
+                        i.putExtra("titulo",denunciaSelecionada.getTituloDenuncia());
+                        i.putExtra("tipo",denunciaSelecionada.getTipoDenuncia());
+                        i.putExtra("local",denunciaSelecionada.getLocalizacao());
+                        i.putExtra("descricao",denunciaSelecionada.getDescricaoDenuncia());
+
+                        startActivity(i);
+                    }
+                });
             }
 
-            Toast.makeText(context, " " + denuncias.size(), Toast.LENGTH_SHORT).show();
 
 
         }

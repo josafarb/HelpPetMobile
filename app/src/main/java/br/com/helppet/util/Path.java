@@ -5,7 +5,7 @@ package br.com.helppet.util;
  */
 
 public  class  Path {
-    private static   String denunciaPath = "10.24.12.128:8080/HelpPet/rest/denuncia";
+    private static   String denunciaPath = "http://10.24.12.128:8080/HelpPet/rest/denuncia";
 
 
     public static String getDenunciaPath() {
