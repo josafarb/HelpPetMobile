@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HelpPet</string>
+    <string name="title_activity_denuncias">DenunciasActivity</string>
 </resources>
