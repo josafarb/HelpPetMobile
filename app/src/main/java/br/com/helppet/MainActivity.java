@@ -23,6 +23,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        Button botaoEvento = (Button) findViewById(R.id.botaoEvento);
+        context = this;
+        botaoEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context,EventosActivity.class);
+                startActivity(i);
+            }
+        });
     }
     private Context context;
 
